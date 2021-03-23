@@ -19,6 +19,8 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.hsqldb:hsqldb:2.5.1'
+	
 }
 
 test {

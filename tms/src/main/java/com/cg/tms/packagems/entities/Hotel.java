@@ -1,4 +1,4 @@
-package com.cg.tms.packagems.entities;
+/*package com.cg.tms.packagems.entities;
 
 import java.util.Objects;
 
@@ -121,4 +121,4 @@ public class Hotel {
 		return Objects.hash(hotelId);
 	}
 
-}
+}*/

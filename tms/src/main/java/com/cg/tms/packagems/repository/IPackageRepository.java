@@ -1,4 +1,4 @@
-package com.cg.tms.packagems.dao;
+package com.cg.tms.packagems.repository;
 
 import com.cg.tms.packagems.exceptions.*;
 import java.util.*;

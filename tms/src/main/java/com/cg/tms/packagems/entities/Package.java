@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-@Entity
+//@Entity
 public class Package {
 
 	@GeneratedValue
@@ -17,21 +17,22 @@ public class Package {
 	private String packageType;
 	private double packageCost;
 
-	@OneToOne
-	private PaymentDetails payment;
+	/*@OneToOne
+	private PaymentDetails payment;*/
 
-	@OneToOne
-	private TicketDetails ticket;
+	/*@OneToOne
+	private TicketDetails ticket;*/
 
-	@OneToOne
-	private Hotel hotel;
+	/*@OneToOne
+	private Hotel hotel;*/
 
 	public Package() {
 
 	}
 
-	public Package(String packageName, String packageDescription, String packageType, double packageCost) {
+	public Package(int packageId,String packageName, String packageDescription, String packageType, double packageCost) {
 
+		this.packageId = packageId;
 		this.packageName = packageName;
 		this.packageDescription = packageDescription;
 		this.packageType = packageType;
@@ -88,7 +89,7 @@ public class Package {
 		this.packageCost = packageCost;
 	}
 
-	public PaymentDetails getPayment() {
+/*	public PaymentDetails getPayment() {
 
 		return payment;
 	}
@@ -96,9 +97,9 @@ public class Package {
 	public void setPayment(PaymentDetails payment) {
 
 		this.payment = payment;
-	}
+	}*/
 
-	public TicketDetails getTicket() {
+	/*public TicketDetails getTicket() {
 
 		return ticket;
 	}
@@ -106,9 +107,9 @@ public class Package {
 	public void setTicket(TicketDetails ticket) {
 
 		this.ticket = ticket;
-	}
+	}*/
 
-	public Hotel getHotel() {
+	/*public Hotel getHotel() {
 
 		return hotel;
 	}
@@ -116,7 +117,7 @@ public class Package {
 	public void setHotel(Hotel hotel) {
 
 		this.hotel = hotel;
-	}
+	}*/
 
 	@Override
 	public String toString() {

@@ -1,4 +1,4 @@
-package com.cg.tms.packagems.entities;
+/*package com.cg.tms.packagems.entities;
 
 import java.util.Objects;
 
@@ -37,7 +37,7 @@ public class TicketDetails {
 	 * public void setRoute(Route route) {
 	 * 
 	 * this.route = route; }
-	 */
+	 
 
 	public String getStatus() {
 
@@ -79,4 +79,4 @@ public class TicketDetails {
 		return Objects.hash(ticketId);
 	}
 
-}
+}*/
