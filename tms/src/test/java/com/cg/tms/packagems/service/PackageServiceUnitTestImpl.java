@@ -15,6 +15,7 @@ import com.cg.tms.packagems.entities.Package;
 import org.junit.jupiter.api.function.Executable;
 import com.cg.tms.packagems.exceptions.*;
 import java.util.Optional;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class PackageServiceUnitTestImpl {
@@ -32,15 +33,22 @@ public class PackageServiceUnitTestImpl {
 	@Test
 	public void testAdd_Package1() {
 
-		Package pack = new Package(1, "Local", "diverse and cultural", "Normal", 8500.0);
-		Mockito.when(packageRepository.save(pack)).thenReturn(pack);
-		Package testPackage = packageService.addPackage(pack);
-		Assertions.assertNotNull(testPackage);
-		Assertions.assertEquals(1, testPackage.getPackageId());
-		Assertions.assertEquals("Local", testPackage.getPackageName());
-		Assertions.assertEquals("diverse and cultural", testPackage.getPackageDescription());
-		Assertions.assertEquals("Normal", testPackage.getPackageType());
-		Assertions.assertEquals(8500.0, testPackage.getPackageCost());
+		String packageName = "Local", packageDescription = "diverse and cultural", packageType = "Normal";
+		Package pack = mock(Package.class);
+		Package saved = mock(Package.class);
+		when(pack.getPackageName()).thenReturn(packageName);
+		when(pack.getPackageDescription()).thenReturn(packageDescription);
+		when(pack.getPackageType()).thenReturn(packageType);
+		when(packageRepository.save(pack)).thenReturn(saved);
+		doNothing().when(packageService).validatePackageName(packageName);
+		doNothing().when(packageService).validatePackageDescription(packageDescription);
+		doNothing().when(packageService).validatePackageType(packageType);
+		Package result = packageService.addPackage(pack);
+		Assertions.assertSame(saved, result);
+		verify(packageRepository).save(pack);
+		verify(packageService).validatePackageName(packageName);
+		verify(packageService).validatePackageDescription(packageDescription);
+		verify(packageService).validatePackageType(packageType);
 
 	}
 
@@ -51,10 +59,12 @@ public class PackageServiceUnitTestImpl {
 	public void testAdd_Package2() {
 
 		String packageName = "";
-		Package pack = new Package(1, packageName, "diverse and cultural", "Normal", 8500.0);
+		Package pack = mock(Package.class);
+		when(pack.getPackageName()).thenReturn(packageName);
 		doThrow(InvalidPackageNameException.class).when(packageService).validatePackageName(packageName);
 		Executable executable = () -> packageService.addPackage(pack);
 		Assertions.assertThrows(InvalidPackageNameException.class, executable);
+		verify(packageRepository, never()).save(pack);
 
 	}
 
@@ -251,5 +261,40 @@ public class PackageServiceUnitTestImpl {
 		Executable executable = () -> packageService.searchPackage(packageId);
 		Assertions.assertThrows(PackageNotFoundException.class, executable);
 	}
+	
+	/**
+	 * Scenario 7a: Package Cancelled
+	 */
+	/*@Test
+	public void testDeletePackageById_1() {
+		
+	
+		
+	}*/
+
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Scenario 8a: View All Packages Successful
+	 */
+	@Test
+	public void testViewAllPackages() {
+		
+		List<Package>packages = mock(List.class);
+		when(packageRepository.findAll()).thenReturn(packages);
+		List<Package> result = packageService.viewAllPackages();
+		Assertions.assertSame(packages,result);
+		verify(packageRepository).findAll();
+		
+		
+	}
+	
+	
 
 }

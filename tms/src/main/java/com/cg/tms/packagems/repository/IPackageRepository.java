@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface IPackageRepository extends JpaRepository<Package, Integer> {
 
-	@Query("from Package where pack=:packArg")
+	/*@Query("from Package where pack=:packArg")
 	public Package addPackage(@Param("packArg") Package pack);
 
 	@Query("from Package where packageId=:packageIdArg")
@@ -21,5 +21,5 @@ public interface IPackageRepository extends JpaRepository<Package, Integer> {
 
 	@Query("from Package")
 	public List<Package> viewAllPackages();
-
+*/
 }

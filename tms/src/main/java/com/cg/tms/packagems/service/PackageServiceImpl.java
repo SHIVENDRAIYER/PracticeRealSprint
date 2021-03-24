@@ -20,12 +20,12 @@ public class PackageServiceImpl implements IPackageService {
 	@Override
 	public Package addPackage(Package pack) {
 
-		validatePackageId(pack.getPackageId());
 		validatePackageName(pack.getPackageName());
 		validatePackageDescription(pack.getPackageDescription());
+		validatePackageType(pack.getPackageType());
 
-		packageRepository.save(pack);
-		return pack;
+		Package saved =  packageRepository.save(pack);
+		return saved;
 
 	}
 
@@ -61,8 +61,8 @@ public class PackageServiceImpl implements IPackageService {
 	@Override
 	public List<Package> viewAllPackages() {
 
-		List<Package> viewAllPackages = packageRepository.viewAllPackages();
-
+		List<Package> viewAllPackages = packageRepository.findAll();
+       
 		return viewAllPackages;
 
 	}
