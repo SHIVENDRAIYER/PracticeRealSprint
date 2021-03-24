@@ -42,12 +42,32 @@ public class PackageUi {
 		} catch (PackageNotFoundException e) {
 
 			System.out.println("Package not found");
-			e.getMessage();
+			e.printStackTrace();
+
+		} catch (InvalidPackageIdException e) {
+
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+
+		} catch (InvalidPackageNameException e) {
+
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+
+		} catch (InvalidPackageDescriptionException e) {
+
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+
+		} catch (InvalidPackageTypeException e) {
+
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 
 		} catch (Exception e) {
 
 			System.out.println("Parent Exception");
-			e.getMessage();
+			e.printStackTrace();
 
 		}
 

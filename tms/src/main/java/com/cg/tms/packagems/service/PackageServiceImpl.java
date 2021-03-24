@@ -23,7 +23,7 @@ public class PackageServiceImpl implements IPackageService {
 		validatePackageId(pack.getPackageId());
 		validatePackageName(pack.getPackageName());
 		validatePackageDescription(pack.getPackageDescription());
-		
+
 		packageRepository.save(pack);
 		return pack;
 
@@ -88,6 +88,14 @@ public class PackageServiceImpl implements IPackageService {
 		if (packageDescription == null || packageDescription.isEmpty() || packageDescription.trim().isEmpty()) {
 
 			throw new InvalidPackageDescriptionException("packageDescription can't be null or empty");
+		}
+	}
+
+	public void validatePackageType(String packageType) {
+
+		if (packageType == null || packageType.isEmpty() || packageType.trim().isEmpty()) {
+
+			throw new InvalidPackageTypeException("packageType can't be null or empty");
 		}
 	}
 
