@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Assertions;
 import com.cg.tms.packagems.entities.Package;
 import org.junit.jupiter.api.function.Executable;
 import com.cg.tms.packagems.exceptions.*;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class PackageServiceUnitTestImpl {
@@ -34,35 +35,46 @@ public class PackageServiceUnitTestImpl {
 	@Test
 	public void testAdd_Package1() {
 
+		String packageName = "Local";
+		String packageDescription = "diverse and cultural";
+
+		Package packd = new Package(1, packageName, packageDescription, "Normal", 8500.0);
+		doNothing().when(packageService).validatePackageName(packageName);
+		doNothing().when(packageService).validatePackageDescription(packageDescription);
+		Package reserved = Mockito.mock(Package.class);
+		Package pack = Mockito.mock(Package.class);
+		when(packageUtil.newPackage()).thenReturn(packd);
+		when(packageRepository.save(pack)).thenReturn(reserved);
+		Package result = packageService.addPackage(packd);
+		Assertions.assertNotNull(result);
+		Assertions.assertEquals(reserved, result);
+		verify(packageRepository).save(pack);
+		verify(packageService).validatePackageDescription(packageDescription);
+		verify(packageService).validatePackageName(packageDescription);
+
 		/*
-		 * String packageName = "Holiday"; String packageDescription =
-		 * "peace and relaxation";
-		 * doNothing().when(packageService).validatePackageName(packageName);
-		 * doNothing().when(packageService).validatePackageDescription(
-		 * packageDescription); Package reserved = Mockito.mock(Package.class); Package
-		 * pack = Mockito.mock(Package.class);
-		 * when(packageUtil.newPackage()).thenReturn(pack);
-		 * when(packageRepository.save(pack)).thenReturn(reserved); Package result =
+		 * int packageId = 2; String packageName = "International"; String
+		 * packageDescription = "challenging adventure"; String packageType = "Ultra";
+		 * double packageCost = 10500.0; Package pack = new Package(packageId,
+		 * packageName, packageDescription, packageType, packageCost); Package result =
 		 * packageService.addPackage(pack); Assertions.assertNotNull(result);
-		 * Assertions.assertEquals(reserved, result);
-		 * verify(packageRepository).save(pack);
-		 * verify(packageService).validatePackageDescription(packageDescription);
-		 * verify(packageService).validatePackageName(packageDescription);
+		 * Assertions.assertEquals(packageId, result.getPackageId());
+		 * Assertions.assertEquals(packageName, result.getPackageName());
+		 * Assertions.assertEquals(packageDescription, result.getPackageDescription());
+		 * Assertions.assertEquals(packageType, result.getPackageType());
+		 * Assertions.assertEquals(packageCost, result.getPackageCost());
 		 */
 
-		int packageId = 2;
-		String packageName = "International";
-		String packageDescription = "challenging adventure";
-		String packageType = "Ultra";
-		double packageCost = 10500.0;
-		Package pack = new Package(packageId, packageName, packageDescription, packageType, packageCost);
-		Package result = packageService.addPackage(pack);
-		Assertions.assertNotNull(result);
-		Assertions.assertEquals(packageId, result.getPackageId());
-		Assertions.assertEquals(packageName, result.getPackageName());
-		Assertions.assertEquals(packageDescription, result.getPackageDescription());
-		Assertions.assertEquals(packageType, result.getPackageType());
-		Assertions.assertEquals(packageCost, result.getPackageCost());
+	}
+
+	@Test
+	public void testAdd_Package2() {
+
+		String packageName = "";
+		Package pack = new Package(1, packageName, "diverse and cultural", "Normal", 8500.0);
+		doThrow(InvalidPackageNameException.class).when(packageService).validatePackageName(packageName);
+		Executable executable = () -> packageService.addPackage(pack);
+		Assertions.assertThrows(InvalidPackageNameException.class, executable);
 
 	}
 
@@ -71,21 +83,65 @@ public class PackageServiceUnitTestImpl {
 	 * 
 	 */
 	@Test
-	public void testAdd_Package2() {
-
-		/*
-		 * String packageName = "";
-		 * doThrow(InvalidPackageNameException.class).when(packageService).
-		 * validatePackageName(packageName); Executable executable = () ->
-		 * packageService.addPackage();
-		 * Assertions.assertThrows(InvalidPackageNameException.class, executable);
-		 */
+	public void testValidateName_1() {
 
 		String packageName = "";
-		Package pack = new Package(1, packageName, "diverse and cultural", "Normal", 8500.0);
-		Executable executable = () -> packageService.addPackage(pack);
+		Executable executable = () -> packageService.validatePackageName(packageName);
 		Assertions.assertThrows(InvalidPackageNameException.class, executable);
 
+	}
+
+	/**
+	 * Scenario: PackageName Validation - Null input
+	 * 
+	 */
+
+	@Test
+	public void testValidateName_2() {
+
+		String packageName = null;
+		Executable executable = () -> packageService.validatePackageName(packageName);
+		Assertions.assertThrows(InvalidPackageNameException.class, executable);
+
+	}
+
+	/**
+	 * Scenario: PackageName Validation - Name not Empty
+	 * 
+	 */
+	@Test
+	public void testValidateName_3() {
+
+		String packageName = "Holiday";
+		packageService.validatePackageName(packageName);
+	}
+
+	/**
+	 * scenario: Package found
+	 */
+	@Test
+	public void testSearchPackageById_1() {
+
+		int packageId = 2;
+		Package pack = mock(Package.class);
+		Optional<Package> optional = Optional.of(pack);
+		when(packageRepository.findById(packageId)).thenReturn(optional);
+		Package result = packageService.searchPackage(2);
+		Assertions.assertEquals(pack, result);
+		verify(packageRepository).findById(packageId);
+	}
+
+	/**
+     * scenario :Package not found
+     */
+	@Test
+	public void testSearchPackageById_2() {
+
+		int packageId = 50;
+		Optional<Package> optional = Optional.empty();
+		when(packageRepository.findById(packageId)).thenReturn(optional);
+		Executable executable = () -> packageService.searchPackage(packageId);
+		Assertions.assertThrows(PackageNotFoundException.class, executable);
 	}
 
 }
