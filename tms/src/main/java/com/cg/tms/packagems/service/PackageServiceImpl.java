@@ -23,12 +23,7 @@ public class PackageServiceImpl implements IPackageService {
 		validatePackageId(pack.getPackageId());
 		validatePackageName(pack.getPackageName());
 		validatePackageDescription(pack.getPackageDescription());
-
-		pack.setPackageId(pack.getPackageId());
-		pack.setPackageName(pack.getPackageName());
-		pack.setPackageDescription(pack.getPackageDescription());
-		pack.setPackageType(pack.getPackageType());
-		pack.setPackageCost(pack.getPackageCost());
+		
 		packageRepository.save(pack);
 		return pack;
 
