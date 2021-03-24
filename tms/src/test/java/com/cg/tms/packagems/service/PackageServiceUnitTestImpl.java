@@ -27,7 +27,7 @@ public class PackageServiceUnitTestImpl {
 	PackageServiceImpl packageService;
 
 	/**
-	 * Scenario : Add package successfully
+	 * Scenario 1a: Add Package Successfully
 	 */
 	@Test
 	public void testAdd_Package1() {
@@ -45,7 +45,7 @@ public class PackageServiceUnitTestImpl {
 	}
 
 	/**
-	 * Scenario : Add package failure
+	 * Scenario 1b : Add Package Failure
 	 */
 	@Test
 	public void testAdd_Package2() {
@@ -59,7 +59,7 @@ public class PackageServiceUnitTestImpl {
 	}
 
 	/**
-	 * Scenario: PackageId Validation - Success scenario
+	 * Scenario 2a : PackageId Validation - Success Scenario
 	 * 
 	 */
 	@Test
@@ -71,7 +71,7 @@ public class PackageServiceUnitTestImpl {
 	}
 
 	/**
-	 * Scenario: PackageId Validation - Negative PackageId
+	 * Scenario 2b : PackageId Validation - Negative PackageId
 	 * 
 	 */
 	@Test
@@ -83,7 +83,7 @@ public class PackageServiceUnitTestImpl {
 	}
 
 	/**
-	 * Scenario: PackageName Validation - Blank input
+	 * Scenario 3a : PackageName Validation - Empty Input
 	 * 
 	 */
 	@Test
@@ -96,7 +96,7 @@ public class PackageServiceUnitTestImpl {
 	}
 
 	/**
-	 * Scenario: PackageName Validation - Null input
+	 * Scenario 3b : PackageName Validation - Null Input
 	 * 
 	 */
 
@@ -110,7 +110,7 @@ public class PackageServiceUnitTestImpl {
 	}
 
 	/**
-	 * Scenario: PackageName Validation - Name not Empty
+	 * Scenario 3c : PackageName Validation - Name Not Empty
 	 * 
 	 */
 	@Test
@@ -121,7 +121,111 @@ public class PackageServiceUnitTestImpl {
 	}
 
 	/**
-	 * scenario: Package foundById
+	 * Scenario 4a : PackageDescription Validation - Empty Input
+	 * 
+	 */
+	@Test
+	public void testValidatePackageDescription_1() {
+
+		String packageDescription = "";
+		Executable executable = () -> packageService.validatePackageDescription(packageDescription);
+		Assertions.assertThrows(InvalidPackageDescriptionException.class, executable);
+
+	}
+
+	/**
+	 * Scenario 4b : PackageDescription Validation - Null Input
+	 * 
+	 */
+	@Test
+	public void testValidatePackageDescription_2() {
+
+		String packageDescription = null;
+		Executable executable = () -> packageService.validatePackageDescription(packageDescription);
+		Assertions.assertThrows(InvalidPackageDescriptionException.class, executable);
+
+	}
+
+	/**
+	 * Scenario 4c : PackageDescription Validation - Length Criteria Not
+	 * Satisfied(should be greater than 10)
+	 * 
+	 */
+	@Test
+	public void testValidatePackageDescription_3() {
+
+		String packageDescription = "worst";
+		Executable executable = () -> packageService.validatePackageDescription(packageDescription);
+		Assertions.assertThrows(InvalidPackageDescriptionException.class, executable);
+
+	}
+
+	/**
+	 * Scenario 4d : PackageDescription Validation - Successful
+	 * 
+	 */
+	@Test
+	public void testValidatePackageDescription_4() {
+
+		String packageDescription = "diverse and cultural";
+		packageService.validatePackageDescription(packageDescription);
+
+	}
+
+	/**
+	 * Scenario 5a : PackageType Validation - Empty Input
+	 * 
+	 */
+	@Test
+	public void testValidatePackageType_1() {
+
+		String packageType = "";
+		Executable executable = () -> packageService.validatePackageType(packageType);
+		Assertions.assertThrows(InvalidPackageTypeException.class, executable);
+
+	}
+
+	/**
+	 * Scenario 5b : PackageType Validation - Null Input
+	 * 
+	 */
+	@Test
+	public void testValidatePackageType_2() {
+
+		String packageType = null;
+		Executable executable = () -> packageService.validatePackageType(packageType);
+		Assertions.assertThrows(InvalidPackageTypeException.class, executable);
+
+	}
+
+	/**
+	 * Scenario 5c : PackageType Validation - Length Criteria Not Satisfied(should
+	 * be less than 10)
+	 * 
+	 */
+	@Test
+	public void testValidatePackageType_3() {
+
+		String packageType = "amazing and astounding";
+		Executable executable = () -> packageService.validatePackageType(packageType);
+		Assertions.assertThrows(InvalidPackageTypeException.class, executable);
+
+	}
+
+	/**
+	 * Scenario 5d : PackageType Validation - Successful
+	 * 
+	 */
+	@Test
+	public void testValidatePackageType_4() {
+
+		String packageType = "Delux";
+		packageService.validatePackageType(packageType);
+
+	}
+
+	/**
+	 * Scenario 6a : Package foundById
 	 */
 	@Test
 	public void testSearchPackageById_1() {
@@ -136,7 +240,7 @@ public class PackageServiceUnitTestImpl {
 	}
 
 	/**
-	 * scenario :Package not foundById
+	 * Scenario 6b :Package not foundById
 	 */
 	@Test
 	public void testSearchPackageById_2() {

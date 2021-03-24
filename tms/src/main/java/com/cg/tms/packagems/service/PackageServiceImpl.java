@@ -85,7 +85,8 @@ public class PackageServiceImpl implements IPackageService {
 
 	public void validatePackageDescription(String packageDescription) {
 
-		if (packageDescription == null || packageDescription.isEmpty() || packageDescription.trim().isEmpty()) {
+		if (packageDescription == null || packageDescription.isEmpty() || packageDescription.trim().isEmpty()
+				|| packageDescription.length() < 10) {
 
 			throw new InvalidPackageDescriptionException("packageDescription can't be null or empty");
 		}
@@ -93,7 +94,7 @@ public class PackageServiceImpl implements IPackageService {
 
 	public void validatePackageType(String packageType) {
 
-		if (packageType == null || packageType.isEmpty() || packageType.trim().isEmpty()) {
+		if (packageType == null || packageType.isEmpty() || packageType.trim().isEmpty() || packageType.length() > 10) {
 
 			throw new InvalidPackageTypeException("packageType can't be null or empty");
 		}
